@@ -52,6 +52,7 @@ export function GridList<T>(props: GridListProps<T>) {
 		),
 		[data, mapKey, rect.columnCount, rect.gap, renderer, rowCount]
 	)
+	const containerStyle = {marginTop: `-${rect.gap / 2}px`};
 
 	return (
 		<InfiniteLoader
@@ -63,10 +64,11 @@ export function GridList<T>(props: GridListProps<T>) {
 		>
 			{({ registerChild, onRowsRendered }) => (
 				<Grid
+					containerStyle={containerStyle}
 					columnCount={rect.columnCount}
 					columnWidth={rect.width / rect.columnCount}
 					rowCount={rowCount}
-					rowHeight={rect.rowHeight}
+					rowHeight={rect.rowHeight + rect.gap}
 					cellRenderer={cellRenderer}
 					height={rect.height}
 					width={rect.width}
@@ -156,6 +158,6 @@ const GridListCell = memo(function GridListCell<T>(props: GridListCellProps<T>) 
 const getStylesWithGap = (gap: number, row: number, col: number, rowCount: number, columnCount: number) => ({
 	paddingLeft: col !== 0 ? gap / 2 : 0,
 	paddingRight: col !== columnCount - 1 ? gap / 2 : 0,
-	paddingTop: row !== 0 ? gap : 0,
-	paddingBottom: row !== rowCount - 1 ? gap / 2 : 0,
+	paddingTop: gap / 2,
+	paddingBottom: gap / 2,
 })
