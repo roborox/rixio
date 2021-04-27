@@ -1,11 +1,11 @@
 import { concat, Observable, of } from "rxjs"
 import { fromPromise } from "rxjs/internal-compatibility"
-import { flatMap, scan, shareReplay } from "rxjs/operators"
+import { mergeMap, scan, shareReplay } from "rxjs/operators"
 import { Validate, ValidationResult, ValidationResultValidating } from "../domain"
 
 export function createValidationResult<T>(value: Observable<T>, validate: Validate<T>) {
 	return value.pipe(
-		flatMap(v => {
+		mergeMap(v => {
 			const vr = validate(v)
 			if ("then" in vr) {
 				return concat(of({ status: "validating" } as ValidationResultValidating), fromPromise(vr))
